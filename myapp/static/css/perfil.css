@@ -1,0 +1,153 @@
+/* perfil.css */
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-details {
+    width: 100%;
+    max-width: 400px; /* Limita el ancho de los detalles del perfil */
+    margin-top: 20px;
+    text-align: center; /* Alinea el texto al centro */
+}
+
+form {
+    width: 100%;
+    max-width: 400px; /* Limita el ancho del formulario */
+    margin-top: 20px;
+    text-align: center; /* Alinea el texto al centro */
+}
+
+h1 {
+    font-size: 32px; /* Aumenta el tamaño del encabezado */
+    color: #333;
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 28px; /* Aumenta el tamaño del encabezado */
+    color: #333;
+    display: flex; /* Usar flexbox */
+}
+
+img {
+    width: 150px; /* Aumenta el tamaño de la imagen */
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+    float: left; /* Alinea la imagen a la izquierda */
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px; /* Aumenta el tamaño del relleno */
+    margin-top: 10px; /* Aumenta el margen superior */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px; /* Aumenta el tamaño de la fuente */
+}
+
+button:hover {
+    background-color: #0d8ecf;
+}
+
+.hidden {
+    display: none;
+}
+
+.profile-details {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px;
+    text-align: center;
+    display: flex; /* Utiliza Flexbox */
+    flex-direction: row; /* Alinea los elementos en fila */
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: center; /* Centra horizontalmente los elementos */
+}
+
+.profile-details img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+    /* Ya no es necesario float: left; */
+}
+
+.profile-details h2
+{
+    margin: 0; /* Elimina el margen entre los elementos */
+}
+
+h2 span {
+    display: inline-block;
+    margin-right: 10px; /* Ajusta el margen derecho según sea necesario */
+    margin-right: 10px; /* Ajustar el margen derecho según sea necesario */
+}
+
+.forum-list {
+    list-style-type: none; /* Elimina los puntos de la lista */
+    padding: 0; /* Elimina el relleno predeterminado */
+}
+
+.forum-item {
+    margin-bottom: 10px; /* Espacio entre cada elemento de la lista */
+}
+
+.forum-title {
+    font-weight: bold; /* Texto en negrita para el título del foro */
+    margin-right: 10px; /* Espacio entre el título y el botón de borrado */
+    color: #000; /* Color del texto del título */
+}
+
+.forum-delete-btn {
+    background-color: #ff5555; /* Color de fondo del botón de borrado */
+    color: #fff; /* Color del texto del botón de borrado */
+    border: none; /* Elimina el borde del botón */
+    padding: 5px 10px; /* Ajusta el relleno del botón */
+    border-radius: 5px; /* Agrega bordes redondeados al botón */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    margin-left: 10px; /* Agrega margen izquierdo al botón */
+}
+
+.forum-delete-btn:hover {
+    background-color: #cc0000; /* Cambia el color de fondo al pasar sobre el botón */
+}
+
+/* Estilos para la línea divisoria */
+.hr-line {
+    border: 0; /* Elimina el borde */
+    height: 1px; /* Grosor de la línea */
+    background-color: #ccc; /* Color de la línea */
+    margin-top: 10px; /* Espacio por encima de la línea */
+    margin-bottom: 10px; /* Espacio por debajo de la línea */
+}
+
+button#editarEdadBtn,
+button#cerrarEdicionBtn {
+    background-color: #0d8ecf;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+button#editarEdadBtn:hover,
+button#cerrarEdicionBtn:hover {
+    background-color: #0a6fbf;
+}
+
+button#cerrarEdicionBtn.hidden {
+    display: none;
+}

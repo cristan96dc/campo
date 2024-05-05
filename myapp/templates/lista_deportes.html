@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Deportes</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Estilo del formulario */
+       
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <!-- Contenido de la barra de navegación -->
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/deportes">Deportes</a></li>
+            <li><a href="/ver-foros">Comunidad</a></li>
+            
+            <!-- Agregar el enlace "Contactos" solo cuando el usuario esté autenticado -->
+            {% if saludo %}
+                <li><a href="/contactos">Contactos</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <li><button type="submit">Logout</button></li>
+                </form>
+            <!-- Agregar el botón de login dentro de la barra de navegación -->
+            {% elif login_button %}
+                <li><a href="{% url 'login' %}" class="button">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <h1>Lista de Deportes</h1>
+
+    <form method="GET">
+        <button type="submit">Filtrar</button>
+        <label for="tipo"></label>
+        <select name="tipo" id="tipo">
+            <option value="">Todos</option>
+            {% for tipo in tipos_deporte %}
+                <option value="{{ tipo }}" {% if tipo == tipo_seleccionado %}selected{% endif %}>{{ tipo }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <ul class="deportes-list">
+        {% for deporte in deportes %}
+            <li class="deportes-list-item">
+                <!-- Enlace a la página de detalle del deporte -->
+                <div style="text-align: center;">
+                    <a href="{% url 'detalle_deporte' deporte.id %}">
+                        <h2 class="sport">{{ deporte.nombre }}</h2>
+                    </a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

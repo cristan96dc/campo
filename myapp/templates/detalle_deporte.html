@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Deporte</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+    <style>
+        /* Estilos para centrar el contenido en la página */
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    
+        /* Estilos para el contenido */
+        .content {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: -250px auto 0; /* Ajusta el margen superior y centra los laterales */
+            max-width: 600px; /* Limita el ancho del contenido */
+        }
+    
+        /* Estilos para la descripción del deporte */
+        .descripcion-deporte {
+            margin-bottom: 20px;
+        }
+    
+        /* Estilos para el contenedor de botones */
+        .botones-wrapper {
+            margin-top: 20px; /* Espacio entre la descripción y los botones */
+            display: flex; /* Alinea los botones en línea */
+            justify-content: center; /* Centra los botones horizontalmente */
+        }
+    
+        .botones-wrapper form {
+            margin: 0 10px; /* Espacio entre los botones */
+        }
+    
+        .botones-wrapper button {
+            padding: 10px 20px;
+            background-color: #1da1f2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    
+        .botones-wrapper button:hover {
+            background-color: #0d8ecf;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="navbar">
+        <!-- Contenido de la barra de navegación -->
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/deportes">Deportes</a></li>
+            <li><a href="/ver-foros">Comunidad</a></li>
+            
+            <!-- Agregar el enlace "Contactos" solo cuando el usuario esté autenticado -->
+            {% if saludo %}
+                <li><a href="/contactos">Contactos</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <li><button type="submit">Logout</button></li>
+                </form>
+            <!-- Agregar el botón de login dentro de la barra de navegación -->
+            {% elif login_button %}
+                <li><a href="{% url 'login' %}" class="button">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <h1>{{ deporte.nombre }}</h1>
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="descripcion-deporte">
+                <p>{{ deporte.descripcion }}</p>
+            </div>
+    
+            <!-- Contenedor de los botones -->
+            <div class="botones-wrapper">
+                <h3>¿Quieres anotarte?</h3>
+                {% if usuario_inscrito %}
+                    <p>Ya estás inscrito en este deporte.</p>
+                    <a href="{% url 'otra_pagina' %}">Ir a otra página</a>
+                {% else %}
+                    {% if user.is_authenticated %}
+                        <form id="anotarse-form" action="{% url 'anotarse' deporte.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">SI</button>
+                        </form>
+                    {% else %}
+                        <button id="anotarse-btn">SI</button>
+                    {% endif %}
+                {% endif %}
+                
+                <form action="{% url 'home'  %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">NO</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('anotarse-btn').addEventListener('click', function() {
+            // Verificar si el usuario está autenticado
+            var isAuthenticated = {% if user.is_authenticated %} true {% else %} false {% endif %};
+            
+            // Si está autenticado, enviar el formulario de inscripción
+            if (isAuthenticated) {
+                document.getElementById('anotarse-form').submit();
+            } else {
+                // Si no está autenticado, redirigir al usuario a la página de inicio de sesión
+                window.location.href = "{% url 'login' %}";
+            }
+        });
+    </script>
+</body>
+</html>

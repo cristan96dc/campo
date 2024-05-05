@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            background-image: url("{% static 'img/campo.png' %}");
+            /* Ajusta el tamaño y la posición de la imagen de fondo según sea necesario */
+            background-size: cover;
+            background-position: center;
+        }
+        h1, h2 {
+            text-align: center; /* Centra el texto horizontalmente */
+            color: white; /* Color del texto */
+            -webkit-text-stroke-width: 1px; /* Ancho del contorno */
+            -webkit-text-stroke-color: black; /* Color del contorno */
+            text-stroke-width: 1px; /* Ancho del contorno para navegadores no webkit */
+            text-stroke-color: black; /* Color del contorno para navegadores no webkit */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <!-- Botón para el menú desplegable -->
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <!-- Contenido de la barra de navegación -->
+        <ul class="navbar-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/deportes">Deportes</a></li>
+            <li><a href="/ver-foros">Comunidad</a></li>
+            <!-- Agregar el enlace "Contactos" solo cuando el usuario esté autenticado -->
+            {% if saludo %}
+                <li><a href="/contactos">Contactos</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <li><button type="submit">Logout</button></li>
+                </form>
+            {% endif %}
+            <!-- Agregar el botón de login dentro de la barra de navegación -->
+            {% if login_button %}
+                <li class="login"><a href="{% url 'login' %}" class="button">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="container">
+        <h1>Bienvenido a  </h1> 
+        <h1>Campo de Actividades </h1>
+        <h2>En nuestro campo, la aventura te espera en cada esquina. Desde emocionantes deportes hasta relajantes sesiones de arte, tenemos algo para todos los gustos y edades. Sumérgete en la adrenalina de los deportes, deslízate sobre las olas con el stand-up paddle, o si prefieres explorar tu creatividad, únete a nuestras clases de arte donde podrás expresar tu imaginación sin límites. ¡Ven y descubre un mundo de diversión y expresión en nuestro Campo de Actividades!</h2>
+    </div>
+</body>
+</html>

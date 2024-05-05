@@ -1,0 +1,136 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat con {{ destinatario.username }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        .chat-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white; /* Añade un fondo blanco al contenedor */
+            border-radius: 10px; /* Añade bordes redondeados para que se vea más suave */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Añade una sombra suave */
+        }
+
+        /* Estilos para el contenedor de mensajes */
+        #chat-messages {
+            max-height: 400px; /* Establece la altura máxima del contenedor */
+            overflow-y: auto; /* Añade una barra de desplazamiento vertical cuando sea necesario */
+        }
+        
+        /* Estilos para los mensajes */
+        .message-container {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        /* Estilos para los mensajes del destinatario */
+        .receiver {
+            background-color: #e6e6e6;
+            padding: 10px;
+            border-radius: 5px;
+            margin-right: auto; /* Alinear a la izquierda */
+        }
+        
+        /* Estilos para tus mensajes */
+        .sender {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-left: auto; /* Alinear a la derecha */
+        }
+        
+        /* Estilos para el formulario */
+        #message-form {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Chat con {{ destinatario.username }}</h1>
+        <div id="chat-messages">
+            <!-- Aquí se cargarán los mensajes del chat -->
+            {% for mensaje in mensajes %}
+                <div class="message-container">
+                    {% if mensaje.remitente == user %}
+                        <div class="sender">
+                            {{ mensaje.contenido }}
+                        </div>
+                    {% else %}
+                        <div class="receiver">
+                            {{ mensaje.contenido }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <form id="message-form">
+            {% csrf_token %}
+            <textarea name="message" rows="3" cols="40"></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var messageForm = document.getElementById('message-form');
+            var chatMessages = document.getElementById('chat-messages');
+
+            messageForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                var formData = new FormData(messageForm);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/chat/{{ destinatario.id }}/', true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        updateChatMessages();
+                        messageForm.reset();
+                    } else {
+                        console.error('Error al enviar el mensaje:', xhr.statusText);
+                    }
+                };
+                xhr.send(formData);
+            });
+
+            function updateChatMessages() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/chat/{{ destinatario.id }}/', true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var messagesData = JSON.parse(xhr.responseText);
+                        chatMessages.innerHTML = '';
+                        messagesData.forEach(function(message) {
+                            var messageDiv = document.createElement('div');
+                            if (message.remitente === '{{ user }}') {
+                                messageDiv.innerHTML = '<div class="message-container"><div class="sender">' + message.contenido + '</div></div>';
+                            } else {
+                                messageDiv.innerHTML = '<div class="message-container"><div class="receiver">' + message.contenido + '</div></div>';
+                            }
+                            chatMessages.appendChild(messageDiv);
+                        });
+
+                        // Hacer scroll hacia abajo para mostrar los mensajes más recientes
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    } else {
+                        console.error('Error al recibir mensajes:', xhr.statusText);
+                    }
+                };
+                xhr.send();
+            }
+
+            setInterval(updateChatMessages, 5000);
+            updateChatMessages();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Foro</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #8ad8f7; /* Celeste claro */        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px; /* Ancho máximo del formulario */
+            margin: 0 auto; /* Centrar horizontalmente */
+        }
+
+        form p {
+            text-align: center; /* Centrar los elementos del formulario */
+        }
+
+        form button {
+            display: block;
+            margin: 20px auto 0; /* Margen superior y centrado horizontalmente */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <!-- Contenido de la barra de navegación -->
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/deportes">Deportes</a></li>
+            <li><a href="/ver-foros">Comunidad</a></li>
+            
+            <!-- Agregar el enlace "Contactos" solo cuando el usuario esté autenticado -->
+            {% if saludo %}
+                <li><a href="/contactos">Contactos</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <li><button type="submit">Logout</button></li>
+                </form>
+            <!-- Agregar el botón de login dentro de la barra de navegación -->
+            {% elif login_button %}
+                <li><a href="{% url 'login' %}" class="button">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="form-container">
+        <h1>Crear Nuevo Foro</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Crear Foro</button>
+        </form>
+    </div>
+</body>
+</html>

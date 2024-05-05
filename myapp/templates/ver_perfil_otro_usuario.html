@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/perfil.css' %}"> <!-- Agregamos la referencia al nuevo archivo CSS -->
+
+</head>
+<body>
+    <div class="navbar">
+        <!-- Contenido de la barra de navegación -->
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/deportes">Deportes</a></li>
+            <li><a href="/ver-foros">Comunidad</a></li>
+            
+            <!-- Agregar el enlace "Contactos" solo cuando el usuario esté autenticado -->
+            {% if saludo %}
+                <li><a href="/contactos">Contactos</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <li><button type="submit">Logout</button></li>
+                </form>
+            <!-- Agregar el botón de login dentro de la barra de navegación -->
+            {% elif login_button %}
+                <li><a href="{% url 'login' %}" class="button">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="container">
+        <h1>Perfil de {{ user.username }}</h1>
+        <div class="profile-details">
+            <img src="{% if otra_clase.foto_de_perfil %}{{ otra_clase.foto_de_perfil.url }}{% else %}{% static 'img/default_profile.png' %}{% endif %}" alt="Foto de perfil">
+            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+            <hr>
+        </div>
+        <div>
+            <hr>
+            <h3>Nombre De Usuario {{ user.username }}</h3>
+            <hr>
+            <p>Descripción: <span id="descripcion">{{ otra_clase.descripcion }}</span> </p>  
+            <hr>
+            <hr>
+        </div>
+        <hr>
+        <h2>Foros Creados por {{ user.username }}</h2>
+        <ul class="forum-list">
+            {% for foro in foros_creados %}
+            <li class="forum-item">
+                <span class="forum-title"><a href="{% url 'detalle_foro' foro.id %}">{{ foro.titulo }}</a></span>
+            </li>
+            <hr class="hr-line">
+            {% endfor %}
+        </ul>
+        {% if inscripciones_usuario %}
+    <h3>Inscripciones de deportes:</h3>
+    <ul>
+        {% for inscripcion in inscripciones_usuario %}
+            <li>{{ inscripcion.deporte.nombre }} - {{ inscripcion.fecha_inscripcion }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+    </div>
+    
+</body>
+</html>

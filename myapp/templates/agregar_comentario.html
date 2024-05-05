@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Comentario</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Agregar Comentario</h1>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="texto">Contenido:</label><br>
+        <textarea id="texto" name="texto"></textarea><br>
+        <button type="submit">Agregar Comentario</button>
+    </form>
+    <h2>Comentarios</h2>
+    <ul>
+        {% for comentario in comentarios %}
+            <li class="comentario">
+                <!-- Nombre del autor del comentario como enlace al perfil -->
+                <a href="{% url 'ver_perfil_otro_usuario' comentario.autor.username %}" class="autor">{{ comentario.autor }}</a> - 
+                <span class="contenido">{{ comentario.contenido }}</span> - Likes: {{ comentario.likes }}
+                <!-- Botón "Like" -->
+                <form method="post" action="{% url 'agregar_comentario' %}" class="acciones">
+                    {% csrf_token %}
+                    <input type="hidden" name="comentario_id" value="{{ comentario.id }}">
+                    <button type="submit" name="like">Like</button>
+                </form>
+                <!-- Formulario para responder -->
+                <form method="post" action="{% url 'agregar_comentario' %}" class="acciones">
+                    {% csrf_token %}
+                    <input type="hidden" name="comentario_padre" value="{{ comentario.id }}">
+                    <textarea name="texto" placeholder="Responder a este comentario"></textarea>
+                    <button type="submit">Responder</button>
+                </form>
+                <!-- Botón para ver respuestas -->
+                <button class="ver-respuestas">Ver respuestas</button>
+                <!-- Respuestas a este comentario -->
+                <ul class="respuestas">
+                    {% for respuesta in comentario.respuestas.all %}
+                        <li>{{ respuesta.autor }} - {{ respuesta.contenido }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        // Función para mostrar/ocultar respuestas al hacer clic en el botón
+        document.querySelectorAll('.comentario').forEach(function(comentario) {
+            comentario.querySelector('.ver-respuestas').addEventListener('click', function() {
+                comentario.querySelector('.respuestas').classList.toggle('visible');
+            });
+        });
+    </script>
+</body>
+</html>

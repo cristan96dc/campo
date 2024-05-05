@@ -1,0 +1,245 @@
+body {
+    background-color: #8ad8f7; /* Celeste claro */
+    font-family: Arial, sans-serif;
+    margin: 20px; /* Agrega márgenes de 20px en todos los lados */
+    background-image: url('../img/puntos.png'); /* Ruta relativa para acceder a la imagen */
+    background-repeat: repeat; /* Repetir la imagen en todas las direcciones */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto; /* Centrar el contenido horizontalmente */
+    padding: 20px;
+}
+
+.button {
+    display: inline-block;
+    background-color: #55acee; /* Color de fondo del botón */
+    color: #fff; /* Color del texto */
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px; /* Bordes redondeados */
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #2288dd; /* Cambia el color de fondo al pasar el mouse */
+}
+
+button, a.button {
+    border-radius: 10px; /* Hace que los botones tengan bordes redondeados */
+    width: 100px; /* Ancho del botón */
+    height: 40px; /* Altura del botón */
+    line-height: 40px; /* Centra el texto verticalmente */
+    display: block; /* Muestra los botones en su propia línea */
+    background-color: #55acee; /* Color de fondo del botón */
+    color: #fff; /* Color del texto */
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 10px auto; /* Auto-centra los botones horizontalmente y agrega espaciado vertical */
+}
+
+button:hover, a.button:hover {
+    background-color: #2288dd; /* Cambia el color de fondo al pasar el mouse */
+}
+
+h1 {
+    text-align: center; /* Centra el texto horizontalmente */
+}
+.comentario {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: left;
+    width: 80%;
+    margin: 0 auto;
+    background-color: #f5f8fa; /* Color de fondo similar al de Twitter */
+}
+
+.comentario {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.comentario a {
+    color: #1da1f2; /* Color azul de Twitter */
+    text-decoration: none;
+}
+
+.comentario .contenido {
+    margin-bottom: 10px;
+}
+
+.comentario .acciones {
+    display: flex;
+    justify-content: space-between;
+}
+
+.comentario .acciones button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #657786; /* Color de texto gris */
+}
+
+.comentario .acciones button:hover {
+    color: #1da1f2; /* Cambia el color del botón al pasar el ratón por encima */
+}
+
+.respuestas {
+    margin-top: 10px;
+    display: none;
+}
+
+.respuestas.visible {
+    display: block;
+}
+.comentarios {
+    background-color:#8ad8f7; /* Color de fondo del área de comentarios */
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px; /* Espaciado superior */
+}
+
+.comentario {
+    border: 1px solid  #8ad8f7;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.comentario p {
+    margin-bottom: 5px;
+}
+
+.navbar {
+    background-color: #222131;
+    overflow: hidden;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh; /* Altura fija para ocupar toda la altura de la ventana */
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Establecer la altura al 100% */
+    overflow-y: auto; /* Permitir el desplazamiento vertical */
+}
+
+.navbar li {
+    display: block;
+}
+
+.navbar li a {
+    display: block;
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar li a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+#login-container {
+    margin: auto;
+    max-width: 400px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+form {
+    text-align: center;
+}
+
+/* Estilo del contenedor de la lista */
+.deportes-list {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+/* Estilo de cada elemento de la lista */
+.deportes-list-item {
+    border: 1px solid #ccc;
+    margin: 10px auto; /* Auto para centrar horizontalmente */
+    padding: 10px;
+    width: 300px; /* Ancho deseado */
+    background-color: #fff; /* Fondo blanco */
+}
+
+/* Estilo de los enlaces */
+.deportes-list-item a {
+    text-decoration: none;
+    color: #333;
+}
+
+.deportes-list-item a:hover {
+    text-decoration: underline;
+}
+
+.elemento-inscripcion {
+    list-style-type: none;
+}
+
+
+#check {
+    display: none;
+}
+@media (max-width: 800px) {
+    .navbar ul {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: #333;
+        flex-direction: column;
+        padding-top: 80px;
+        transition: all 0.5s ease;
+    }
+
+    .navbar li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar li a {
+        padding: 20px;
+    }
+
+    #check:checked ~ .navbar ul {
+        display: flex;
+    }
+
+    .checkbtn {
+        display: block;
+        margin-top: 20px;
+    }
+}
+.notification-icon img {
+    width: 30px; /* Ajusta el ancho del ícono */
+    height: auto; /* Permite que la altura se ajuste automáticamente */
+    margin-left: 10px; /* Añade un margen a la izquierda del ícono para separarlo de otros elementos */
+    cursor: pointer; /* Cambia el cursor a una mano para indicar que es interactivo */
+}

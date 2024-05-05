@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Foros</title>
+</head>
+<body>
+    <div class="navbar">
+        <!-- Contenido de la barra de navegación -->
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/deportes">Deportes</a></li>
+            <li><a href="/ver-foros">Comunidad</a></li>
+            
+            <!-- Agregar el enlace "Contactos" solo cuando el usuario esté autenticado -->
+            {% if saludo %}
+                <li><a href="/contactos">Contactos</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <li><button type="submit">Logout</button></li>
+                </form>
+            <!-- Agregar el botón de login dentro de la barra de navegación -->
+            {% elif login_button %}
+                <li><a href="{% url 'login' %}" class="button">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <!-- Crear nuevo foro -->
+    <h1>Crear Nuevo Foro</h1>
+    <form action="{% url 'gestionar_foros' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Crear Foro</button>
+    </form>
+
+    <!-- Ver todos los foros -->
+    <h1>Lista de Foros</h1>
+    <ul>
+        {% for foro in lista_foros %}
+        <li><a href="{% url 'gestionar_foros' foro.id %}">{{ foro.titulo }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <!-- Ver comentarios del foro específico -->
+    {% if foro %}
+    <h1>Comentarios del Foro: {{ foro.titulo }}</h1>
+    <ul>
+        {% for comentario in lista_comentarios %}
+        <li>{{ comentario.contenido }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>

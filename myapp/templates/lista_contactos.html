@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contactos</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilos para los elementos de la lista */
+        .container ul {
+            list-style-type: none; /* Quita los estilos de la lista predeterminados */
+            padding: 0; /* Quita el espacio interno de la lista */
+        }
+
+        .container li {
+            padding: 10px 0; /* Añade espacio entre los elementos */
+            border-bottom: 1px solid #ccc; /* Divide los elementos por líneas */
+        }
+
+        .container li a {
+            text-decoration: none; /* Quita el subrayado predeterminado de los enlaces */
+            color: #333; /* Color del texto */
+            font-size: 18px; /* Tamaño del texto */
+            font-family: Arial, sans-serif; /* Tipo de fuente */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <!-- Contenido de la barra de navegación -->
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/deportes">Deportes</a></li>
+            <li><a href="/ver-foros">Comunidad</a></li>
+            
+            <!-- Agregar el enlace "Contactos" solo cuando el usuario esté autenticado -->
+            {% if saludo %}
+                <li><a href="/contactos">Contactos</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <li><button type="submit">Logout</button></li>
+                </form>
+            <!-- Agregar el botón de login dentro de la barra de navegación -->
+            {% elif login_button %}
+                <li><a href="{% url 'login' %}" class="button">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="container">
+    <h1>Contactos</h1>
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Buscar usuarios...">
+        <button type="submit">Buscar</button>
+    </form>
+    <ul>
+        {% for contacto in contactos %}
+            <li>
+                <a href="{% url 'chat' contacto.id %}">
+                    {% if contacto.foto_de_perfil %}
+                        <img src="{{ contacto.foto_de_perfil.url }}" alt="Foto de perfil de {{ contacto.username }}" style="width: 50px; height: 50px; border-radius: 50%;">
+                    {% else %}
+                        <!-- Aquí puedes poner una imagen por defecto si el usuario no tiene foto de perfil -->
+                        <img src="{% static 'img/default_profile.png' %}" alt="Foto de perfil por defecto" style="width: 50px; height: 50px; border-radius: 50%;">
+                    
+                        {% endif %}
+                    {{ contacto.username }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>

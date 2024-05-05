@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Ver Foros</title>
+    <style>
+        .container ul {
+            list-style-type: none; /* Eliminar viñetas de la lista */
+            padding: 0; /* Eliminar relleno */
+            text-align: center;
+            max-width: 800px; /* Ancho máximo del contenedor */
+            margin: 20px auto; /* Centrar horizontalmente */
+            background-color: #ffffff; /* Fondo blanco */
+            padding: 20px; /* Espaciado interno */
+        }
+
+        .container li {
+            margin-bottom: 10px; /* Espaciado entre elementos de la lista */
+            background-color: #ffffff; /* Fondo blanco */
+            padding: 10px; /* Espaciado interno */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <!-- Contenido de la barra de navegación -->
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/deportes">Deportes</a></li>
+            <li><a href="/ver-foros">Comunidad</a></li>
+            
+            <!-- Agregar el enlace "Contactos" solo cuando el usuario esté autenticado -->
+            {% if saludo %}
+                <li><a href="/contactos">Contactos</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <li><button type="submit">Logout</button></li>
+                </form>
+            <!-- Agregar el botón de login dentro de la barra de navegación -->
+            {% elif login_button %}
+                <li><a href="{% url 'login' %}" class="button">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="container"> <!-- Contenedor para centrar el contenido -->
+        <h1>Lista de Foros</h1>
+        {% if saludo %}
+            <a href="{% url 'crear_foro' %}"><button>Crear</button></a>
+        {% endif %}
+        <ul>
+            {% for foro in lista_foros %}
+                <li><a href="{% url 'detalle_foro' foro.id %}">{{ foro.titulo }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
